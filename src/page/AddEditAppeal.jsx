@@ -29,7 +29,7 @@ const AddEditAppeal = () => {
 
                     <DetailName />
                     <Typography sx={{ marginLeft: '15px', fontWeight: 'bold', marginTop: '40px', }} >
-                        ยื่น/แก้อุทธรณ์
+                        ยื่น/แก้อุทธรณ์ Test
                     </Typography>
                     <Divider sx={{ borderColor: '#1530A8' }} />
 
