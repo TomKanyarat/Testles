@@ -1,0 +1,109 @@
+import * as React from 'react';
+import Paper from '@mui/material/Paper';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox, Typography } from '@mui/material';
+
+const columns = [
+    { id: 'id', label: 'ลำดับ', minWidth: 130 },
+    { id: 'DateAssignment', label: 'วันที่มอบหมายสืบทรัพย์', minWidth: 130 },
+    { id: 'DateInvestigation', label: 'วันที่สืบทรัพย์เสร็จสิ้น', minWidth: 130 },
+    { id: 'Note', label: 'ประเภทที่สืบ', minWidth: 110 },
+    { id: 'Note', label: 'หน่วยงานภายนอกที่สืบทรัพย์', minWidth: 110 },
+    { id: 'Note', label: 'หมายเหตุ', minWidth: 110 },
+    { id: 'Note', label: 'สถานะราชการ', minWidth: 110 },
+    { id: 'Note', label: 'ผลการสืบทรัพย์', minWidth: 110 },
+    { id: 'Note', label: 'จัดการข้อมูล', minWidth: 110 },
+];
+
+const rowsData = []; // กำหนดเป็นอาเรย์ว่างเพื่อทดสอบการแสดงข้อความ "ไม่มีข้อมูลในตาราง"
+
+export default function TBDetailRSIVGT04() {
+    const [rows, setRows] = React.useState(rowsData);
+
+    const handleRowSelect = (id, checked) => {
+        setRows(
+            rows.map((row) =>
+                row.id === id ? { ...row, selected: checked } : row // อัปเดตเฉพาะแถวที่เลือก
+            )
+        );
+    };
+
+    return (
+        <Paper sx={{ width: '100%', overflowX: 'auto' }}>
+            <TableContainer sx={{
+                overflowX: 'auto',
+                '& td, & th': {
+                    whiteSpace: 'normal',
+                    wordBreak: 'break-word',
+                    lineHeight: 1.4,
+                },
+            }} >
+                <Table
+                    stickyHeader
+                    aria-label="sticky table"
+                    sx={{
+                        minWidth: 800, // กำหนดความกว้างขั้นต่ำของตาราง
+                        width: '100%',
+                        tableLayout: 'fixed', // บังคับให้ตารางปรับขนาดอัตโนมัติ
+                    }}>
+                    <TableHead>
+                        <TableRow>
+                            {rows.length > 0 && ( // แสดง Checkbox เฉพาะเมื่อมีข้อมูล
+                                <TableCell
+                                    sx={{
+                                        backgroundColor: '#1530A8',
+                                        color: 'white',
+                                        fontWeight: 'bold',
+                                        fontSize: '14px',
+                                        textAlign: 'center',
+                                    }}>
+                                    
+                                </TableCell>
+                            )}
+                            {columns.slice(rows.length > 0 ? 1 : 0).map((column) => ( // ถ้าไม่มีข้อมูลไม่ต้องขยับ Index
+                                <TableCell
+                                    key={column.id}
+                                    sx={{
+                                        backgroundColor: '#1530A8',
+                                        color: 'white',
+                                        fontWeight: 'bold',
+                                        fontSize: '14px',
+                                    }}>
+                                    {column.label}
+                                </TableCell>
+                            ))}
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {rows.length === 0 ? ( // ตรวจสอบว่า rows ว่างหรือไม่
+                            <TableRow>
+                                <TableCell colSpan={columns.length} align="center">
+                                    <Typography variant="body1" color="textSecondary">
+                                        ไม่มีข้อมูล
+                                    </Typography>
+                                </TableCell>
+                            </TableRow>
+                        ) : (
+                            rows.map((row) => (
+                                <TableRow key={row.id}>
+                                    <TableCell sx={{ textAlign: 'center' }}>
+                                        <Checkbox
+                                            color="primary"
+                                            checked={row.selected}
+                                            onChange={(e) =>
+                                                handleRowSelect(row.id, e.target.checked)
+                                            }
+                                        />
+                                    </TableCell>
+                                    <TableCell>{row.id}</TableCell>
+                                    <TableCell>{row.DateAssignment}</TableCell>
+                                    <TableCell>{row.DateInvestigation}</TableCell>
+                                    <TableCell>{row.Note}</TableCell>
+                                </TableRow>
+                            ))
+                        )}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Paper>
+    );
+}
