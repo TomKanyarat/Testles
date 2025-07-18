@@ -32,6 +32,8 @@ const Back = (props) => {
         { path: "/page/DetailAuction", label: props.BackDetailAuction },
         { path: "/page/AnnounceAuction", label: props.BackFromAnnounceAuction },
         { path: "/page/SystemWork", label: props.BackConditCancel },
+        { path: "/page/ConditEnforcement", label: props.BackConditEnforcement },
+
     ];
 
     const currentPath = location.pathname;

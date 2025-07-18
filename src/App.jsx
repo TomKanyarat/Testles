@@ -60,11 +60,12 @@ import FromAnnounceAuction from './page/FromAnnounceAuction';
 import ResultsFirst from "./page/ResultsFirst";
 import DetailResultFirst from './page/DetailResultFirst';
 import FromResultFirst from './page/FromResultFirst';
+import ConditEnforcement from "./page/ConditEnforcement";
+import FromConditEnforcement from "./page/FromConditEnforcement";
 
 function App() {
   return (
     <BrowserRouter>
-
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/page/Sue" element={<Sue />} />
@@ -126,7 +127,8 @@ function App() {
         <Route path="/page/ResultsFirst" element={<ResultsFirst />} />
         <Route path="/page/DetailResultFirst" element={<DetailResultFirst />} />
         <Route path="/page/FromResultFirst" element={<FromResultFirst />} />
-        
+        <Route path="/page/ConditEnforcement" element={<ConditEnforcement />} />
+        <Route path="/page/FromConditEnforcement" element={<FromConditEnforcement />} />
       </Routes>
     </BrowserRouter>
   );

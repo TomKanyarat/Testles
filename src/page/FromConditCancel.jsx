@@ -6,7 +6,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import AddIcon from '@mui/icons-material/Add';
 
 import DeleteIcon from '@mui/icons-material/Delete';
-const ConditCancel = () => {
+const FromConditCancel = () => {
     const [year, setYear] = useState('');
     const [frequency, setFrequency] = useState('');
     const [month, setMonth] = useState('');
@@ -297,8 +297,8 @@ const ConditCancel = () => {
                         </Grid >
                         {conditions.map((cond, index) => (
                             <Grid key={cond.id} container sx={{ border: '1px solid lightgray', padding: '20px', borderRadius: '10px' }}>
-                                <Box onClick={() => handleRemoveCondition(cond.id)} sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-                                    <Button sx={{ backgroundColor: '#C05151', color: 'white' }}>
+                                <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+                                    <Button onClick={() => handleRemoveCondition(cond.id)} sx={{ backgroundColor: '#C05151', color: 'white' }}>
                                         <DeleteIcon /> ลบเงื่อนไข
                                     </Button>
   {/* ปิดการลบเงื่อนไขที่ 1 {index > 0 && (
@@ -770,4 +770,4 @@ const ConditCancel = () => {
     )
 }
 
-export default ConditCancel
+export default FromConditCancel

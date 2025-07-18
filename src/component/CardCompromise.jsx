@@ -1,7 +1,6 @@
 import React from 'react';
-import { Card, Divider, Typography, } from '@mui/material'; 
+import { Card, Divider, Typography, } from '@mui/material';
 import ButtonDetail from './ButtonDetail'; // ใช้ ButtonDetail ที่สร้างขึ้น
-
 
 const CardSue = () => {
     const cardData = [
@@ -17,12 +16,12 @@ const CardSue = () => {
             buttonText: 'ดูรายละเอียด',
             to: '/page/',
         },
-      
+
     ];
 
     return (
         <>
-               ยื่นฟ้อง
+            ยื่นฟ้อง
             <Divider sx={{ borderColor: '#081342', borderWidth: 1 }} />
 
             {cardData.map((card, index) => (

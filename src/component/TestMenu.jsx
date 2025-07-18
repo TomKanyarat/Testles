@@ -137,6 +137,7 @@ export default function TemporaryDrawer() {
         setOpenList(false);  // ปิดเมนูย่อยของ "งานบังคับคดี"
 
     };
+    
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -413,7 +414,7 @@ export default function TemporaryDrawer() {
                         {[
                             { name: 'เงื่อนไขเพื่อคัดลูกหนี้เพื่อการบอกเลิกสัญญาและดำเนินคดี', link: '/page/SystemWork' },
                             { name: 'เงื่อนไขสัญญาประนีประนอมยอมความ', link: '/page/ForcedWarrant' },
-                            { name: 'งานไกล่เกลี่ย', link: '/page/Mediation' },
+                            { name: 'เงื่อนไขลูกหนี้ที่เข้าข่ายบังคับคดี', link: '/page/ConditEnforcement' },
                             { name: 'สืบทรัพย์', link: '/page/ResultsInvestigation' },
                             { name: 'ยึดทรัพย์', link: '/page/SeizePPT' },
                             { name: 'ขายทอดตลาด', link: '/page/Auction' },

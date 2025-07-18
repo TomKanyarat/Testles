@@ -1,11 +1,11 @@
 // import React, { useState } from 'react';
-import SubHeader from '../component/SubHeader';
+// import SubHeader from '../component/SubHeader';
 import { Grid, Box, Typography, Divider, Button } from '@mui/material';
 import TestMenu from '../component/TestMenu';
 import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import TBConditCancel from '../TB/TBConditCancel';
-const Sue = () => {
+const SystemWork = () => {
     // const [value, setValue] = useState('option1');
 
     return (
@@ -47,4 +47,4 @@ const Sue = () => {
     );
 };
 
-export default Sue;
+export default SystemWork;
