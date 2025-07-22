@@ -23,7 +23,7 @@ const Sue = () => {
                 <TestMenu />
                 <Box component="main" sx={{ overflowX: 'auto', }}>
                     <SubHeader />
-                    <SubHeader textheader="สร้างคำฟ้อง" textll="สร้างสัญญาประนีประนอมยอมความ" />
+        <SubHeader text="หน้าหลัก" />
                     <Grid container spacing={1} sx={{ padding: '20px 20px', }}>
                         <Grid item xs={12} sm={12} md={12} sx={{
                             borderRadius: '5px',

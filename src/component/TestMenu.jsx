@@ -17,7 +17,8 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { House } from 'lucide-react';
 import DSL from '../Image/DSL.png';
 import { BookText } from 'lucide-react';
-const drawerWidth = 240;
+
+const drawerWidth = 290;
 
 const openedMixin = (theme) => ({
     width: drawerWidth,
@@ -86,15 +87,12 @@ const Drawer = styled(MuiDrawer, {
 
 export default function TemporaryDrawer() {
     const location = useLocation();  // ดึง path ปัจจุบัน เช่น /page/SystemWork
-
-
     const theme = useTheme();
     const [open, setOpen] = React.useState(true);
     const [openSendEmail, setOpenSendEmail] = React.useState(false);
-    const [openSee, setOpenSee] = React.useState(false);
     const [openList, setOpenList] = React.useState(false);
     const [selectedMenu, setSelectedMenu] = React.useState('');
-    const [openSystem, setOpenSystem] = React.useState(false);
+    // const [openSystem, setOpenSystem] = React.useState(false);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -105,45 +103,65 @@ export default function TemporaryDrawer() {
         setOpenSendEmail(false);  // ปิดเมนูย่อยของ "งานดำเนินคดี"
         setOpenList(false);  // ปิดเมนูย่อยของ "งานบังคับคดี"
         setOpenSee(false);  // ปิดเมนูย่อยของ "พิพากษา"
-        setOpenSystem(false);  // ปิดเมนูย่อยของ "งานระบบ'"
-
-        // หากเมนูที่เลือกอยู่ในเมนูย่อย ให้ไม่รีเซ็ตการเลือก
-        if (selectedMenu === 'บอกเลิกสัญญา' || selectedMenu === 'สั่งฟ้อง') {
-            setSelectedMenu(selectedMenu);  // เก็บเมนูที่เลือก
-        }
+        // setOpenSystem(false);  // ปิดเมนูย่อยของ "งานระบบ'"
     };
     const toggleSendEmailMenu = () => {
-        setSelectedMenu('งานดำเนินคดี'); // 👈 สำคัญ
-        setOpenSendEmail(prev => !prev);
-        setOpenList(false);  // ปิดเมนูย่อยของ "งานบังคับคดี"
-        setOpenSee(false);  // ปิดเมนูย่อยของ "พิพากษา"
-        setOpenSystem(false);  // ปิดเมนูย่อยของ "งานระบบ"
-    };
-
-    const toggleSeeMenu = () => {
-        setOpenSee(prev => !prev);
-        setOpenSystem(false);
-        setOpenSendEmail(false);
-        setOpenList(false);
+        setOpenSendEmail(!openSendEmail);
     };
 
     const toggleList = () => {
-        setSelectedMenu('งานบังคับคดี'); // 👈 สำคัญ
-        setOpenList(prev => !prev);
-        setOpenSystem(false);
-        setOpenSendEmail(false);
-        setOpenSee(false);
+        setOpenList(!openList);
     };
 
+    // const toggleSystem = () => {
+    //     setOpenSystem(!openSystem);
+    // };
 
-    const toggleSystem = () => {
-        setSelectedMenu('งานระบบ'); // 
-        setOpenSystem(prev => !prev);
-        setOpenSendEmail(false);        // ปิดเมนูอื่น
-        setOpenList(false);
-        setOpenSee(false);
+    // State
+    const [openCancelMenu, setOpenCancelMenu] = React.useState(false);
+    const [openSueMenu, setOpenSueMenu] = React.useState(false);
+    const [openSee, setOpenSee] = React.useState(false);
+    // Toggle
+    const toggleCancelMenu = () => setOpenCancelMenu(!openCancelMenu);
+    const toggleSueMenu = () => setOpenSueMenu(!openSueMenu);
+    const toggleSeeMenu = () => setOpenSee(!openSee);
 
-    };
+  React.useEffect(() => {
+    if (
+        ['/page/CancelContract', '/page/RecordCancelContract'].includes(location.pathname)
+    ) {
+        setOpenSendEmail(true);
+        setOpenCancelMenu(true);
+    }
+
+    if (
+        ['/page/Sue', '/page/Compromise'].includes(location.pathname)
+    ) {
+        setOpenSendEmail(true);
+        setOpenSueMenu(true);
+    }
+
+    if (
+        ['/page/ResultsFirst', '/page/Appeal', '/page/SupremeLaw'].includes(location.pathname)
+    ) {
+        setOpenSendEmail(true);
+        setOpenSee(true);
+    }
+
+    if (!openList && [
+        '/page/WearRights',
+        '/page/ForcedWarrant',
+        '/page/Mediation',
+        '/page/ResultsInvestigation',
+        '/page/SeizePPT',
+        '/page/Auction',
+        '/page/PetitionProperty',
+        '/page/FileBankruptcy',
+    ].includes(location.pathname)) {
+        setOpenList(true);
+    }
+}, [location.pathname]); // ✅ เพิ่ม dependency เพื่อรีแอคตอน path เปลี่ยน
+
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -175,7 +193,7 @@ export default function TemporaryDrawer() {
                     </IconButton>
                 </DrawerHeader>
 
-                <List>
+                {/* <List>
                     {['หน้าแรก'].map((text) => (
                         <ListItem key={text} disablePadding>
                             <ListItemButton
@@ -209,10 +227,9 @@ export default function TemporaryDrawer() {
                             </ListItemButton>
                         </ListItem>
                     ))}
-                </List>
+                </List> */}
 
-
-                <List>
+                {/*  <List>
                     {['งานระบบ'].map((text) => (
                         <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                             <ListItemButton
@@ -234,15 +251,15 @@ export default function TemporaryDrawer() {
                                     justifyContent: open ? 'initial' : 'center',
                                     color: selectedMenu === text ? 'white' : 'inherit', // เปลี่ยนสีไอคอนเมื่อเลือก
                                 }}>
-                                    {text === 'หน้าแรก' ? <House /> : <BookText />}
+                                    <BookText />
                                 </ListItemIcon>
                                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                                {open && <ArrowDropDownIcon />} {/* แสดง ArrowDropDownIcon เฉพาะเมื่อ Drawer เปิด */}
+                                {open && <ArrowDropDownIcon />} 
                             </ListItemButton>
                         </ListItem>
                     ))}
-                </List>
-
+                </List> */}
+                {/* 
                 <Collapse in={openSystem} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
                         {[
@@ -279,113 +296,173 @@ export default function TemporaryDrawer() {
                             </ListItem>
                         ))}
                     </List>
-                </Collapse>
-
+                </Collapse> */}
 
                 <List>
-                    {['งานดำเนินคดี'].map((text) => (
-                        <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-                            <ListItemButton
-                                disabled={!open} // ปิดการคลิกเมนูเมื่อ drawer ปิด
-                                onClick={toggleSendEmailMenu}
+                    {/* หัวข้อหลัก: งานดำเนินคดี */}
+                    <ListItem disablePadding sx={{ display: 'block' }}>
+                        <ListItemButton
+                            disabled={!open}
+                            onClick={toggleSendEmailMenu}
+                            sx={{
+                                justifyContent: open ? 'initial' : 'center',
+                                bgcolor: 'transparent',  // ✅ ไม่เปลี่ยนสีพื้นหลังเมื่อคลิก
+                                color: 'inherit',        // ✅ ไม่เปลี่ยนสีข้อความเมื่อคลิก
+                                '&:hover': {
+                                    bgcolor: '#1530A8',
+                                    color: 'white',
+                                },
+                            }}
+                        >
+                            <ListItemIcon
                                 sx={{
+                                    minWidth: 0,
+                                    mr: open ? 3 : 'auto',
                                     justifyContent: open ? 'initial' : 'center',
-                                    bgcolor: selectedMenu === text ? '#1530A8' : 'transparent',  // เปลี่ยนพื้นหลังเมนูที่เลือก
-                                    color: selectedMenu === text ? 'white' : 'inherit',  // เปลี่ยนสีข้อความเมนูที่เลือก
+                                    color: 'inherit',  // ✅ ไม่เปลี่ยนสีไอคอน
+                                }}
+                            >
+                                <BookText />
+                            </ListItemIcon>
+                            <ListItemText primary="งานดำเนินคดี" sx={{ opacity: open ? 1 : 0 }} />
+                            {open && <ArrowDropDownIcon />}
+                        </ListItemButton>
+                    </ListItem>
+
+                    {/* เมนูย่อยของงานดำเนินคดี */}
+                    <Collapse in={openSendEmail} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding>
+
+                            {/* กลุ่ม: บอกเลิกสัญญา */}
+                            <ListItemButton onClick={toggleCancelMenu}
+                                sx={{
+                                    pl: 4,
+                                    bgcolor: 'transparent',
+                                    color: 'inherit',
                                     '&:hover': {
                                         bgcolor: '#1530A8',
                                         color: 'white',
+                                        '& .MuiListItemText-root': {
+                                            color: 'white',
+                                        },
                                     },
-                                }}
-                            >
-                                <ListItemIcon sx={{
-                                    minWidth: 0, mr: open ? 3 : 'auto',
-                                    justifyContent: open ? 'initial' : 'center',
-                                    color: selectedMenu === text ? 'white' : 'inherit', // เปลี่ยนสีไอคอนเมื่อเลือก
                                 }}>
-                                    <BookText />
-                                </ListItemIcon>
-                                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                                {open && <ArrowDropDownIcon />} {/* แสดง ArrowDropDownIcon เฉพาะเมื่อ Drawer เปิด */}
+                                <ListItemText primary="บอกเลิกสัญญา" />
+                                <ArrowDropDownIcon />
                             </ListItemButton>
-                        </ListItem>
-                    ))}
+
+                            <Collapse in={openCancelMenu} timeout="auto" unmountOnExit>
+
+                                {[{ name: 'รายการลูกหนี้ที่รอบอกเลิกสัญญา', link: '/page/CancelContract' },
+                                { name: 'บันทึกผลการจัดส่งข้อมูลหนังสือบอกเลิกสัญญา', link: '/page/RecordCancelContract' }].map((item) => (
+                                    <ListItem key={item.name} disablePadding>
+                                        <ListItemButton
+                                            component={Link}
+                                            to={item.link}
+                                            onClick={() => setSelectedMenu(item.name)} // ✅ ใส่ตรงนี้!
+                                            sx={{
+                                                pl: 6,
+                                                bgcolor: location.pathname === item.link ? '#1530A8' : 'transparent',
+                                                color: location.pathname === item.link ? 'white' : 'inherit',
+                                                '&:hover': {
+                                                    bgcolor: '#1530A8',
+                                                    color: 'white',
+                                                },
+                                            }}
+                                        >
+                                            <ListItemText primary={item.name} sx={{
+                                                whiteSpace: 'normal',
+                                                wordBreak: 'break-word',
+                                            }} />
+                                        </ListItemButton>
+                                    </ListItem>
+                                ))}
+                            </Collapse>
+
+                            {/* กลุ่ม: สั่งฟ้อง */}
+                            <ListItemButton onClick={toggleSueMenu}
+                                sx={{
+                                    pl: 4,
+                                    bgcolor: 'transparent',
+                                    color: 'inherit',
+                                    '&:hover': {
+                                        bgcolor: '#1530A8',
+                                        color: 'white',
+                                        '& .MuiListItemText-root': {
+                                            color: 'white',
+                                        },
+                                    },
+                                }}>
+                                <ListItemText primary="สั่งฟ้อง" />
+                                <ArrowDropDownIcon />
+                            </ListItemButton>
+                            <Collapse in={openSueMenu} timeout="auto" unmountOnExit>
+                                {[{ name: 'สร้างคำฟ้อง', link: '/page/Sue' }, { name: 'สร้างสัญญาประนีประนอม', link: '/page/Compromise' }].map((item) => (
+                                    <ListItem key={item.name} disablePadding>
+                                        <ListItemButton
+                                            component={Link}
+                                            to={item.link}
+                                            onClick={() => setSelectedMenu(item.name)}
+                                            sx={{
+                                                pl: 6,
+                                                bgcolor: location.pathname === item.link ? '#1530A8' : 'transparent',
+                                                color: location.pathname === item.link ? 'white' : 'inherit',
+                                                '&:hover': {
+                                                    bgcolor: '#1530A8',
+                                                    color: 'white',
+                                                },
+                                            }}
+                                        >
+                                            <ListItemText primary={item.name} />
+                                        </ListItemButton>
+                                    </ListItem>
+                                ))}
+                            </Collapse>
+
+                            {/* กลุ่ม: พิพากษา */}
+                            <ListItemButton onClick={toggleSeeMenu}
+                                sx={{
+                                    pl: 4,
+                                    bgcolor: 'transparent',
+                                    color: 'inherit',
+                                    '&:hover': {
+                                        bgcolor: '#1530A8',
+                                        color: 'white',
+                                        '& .MuiListItemText-root': {
+                                            color: 'white',
+                                        },
+                                    },
+                                }}>
+                                <ListItemText primary="พิพากษา" />
+                                <ArrowDropDownIcon />
+                            </ListItemButton>
+                            <Collapse in={openSee} timeout="auto" unmountOnExit>
+                                {[{ name: 'ชั้นต้น', link: '/page/ResultsFirst' }, { name: 'ชั้นอุทธรณ์', link: '/page/Appeal' }, { name: 'ชั้นฎีกา', link: '/page/SupremeLaw' }].map((item) => (
+                                    <ListItem key={item.name} disablePadding>
+                                        <ListItemButton
+                                            component={Link}
+                                            to={item.link}
+                                            onClick={() => setSelectedMenu(item.name)}
+                                            sx={{
+                                                pl: 6,
+                                                bgcolor: location.pathname === item.link ? '#1530A8' : 'transparent',
+                                                color: location.pathname === item.link ? 'white' : 'inherit',
+                                                '&:hover': {
+                                                    bgcolor: '#1530A8',
+                                                    color: 'white',
+                                                },
+                                            }}
+                                        >
+                                            <ListItemText primary={item.name} />
+                                        </ListItemButton>
+                                    </ListItem>
+                                ))}
+                            </Collapse>
+
+                        </List>
+                    </Collapse>
                 </List>
 
-                <Collapse in={openSendEmail} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                        {[
-                            { name: 'บอกเลิกสัญญา', link: '/page/CancelContract' },
-                            { name: 'สั่งฟ้อง', link: '/page/Sue' },
-                            { name: 'พิพากษา', link: '#', onClick: toggleSeeMenu },
-                        ].map((item) => (
-                            <ListItem key={item.name} disablePadding>
-                                <ListItemButton
-                                    onClick={(event) => {
-                                        // หากไม่ใช่ "พิพากษา" ให้ตั้งค่าเมนูที่เลือก
-                                        if (item.name !== 'พิพากษา') {
-                                            setSelectedMenu(item.name);
-                                        }
-                                        // ตรวจสอบว่ามี onClick ใน item หรือไม่
-                                        if (item.onClick) {
-                                            item.onClick(event);  // เรียกใช้ฟังก์ชัน onClick ของ item ถ้ามี
-                                        }
-                                    }}
-                                    component={item.link === '#' ? 'div' : Link}
-                                    to={item.link !== '#' ? item.link : undefined}
-                                    sx={{
-                                        pl: 4,
-                                        bgcolor: location.pathname === item.link ? '#1530A8' : 'transparent', // ✅ เปลี่ยนพื้นหลังถ้า path ตรงกัน
-                                        color: location.pathname === item.link ? 'white' : 'inherit',
-                                        '&:hover': {
-                                            bgcolor: '#1530A8',
-                                            color: 'white',
-                                            '& .MuiListItemText-root': {
-                                                color: 'white',
-                                            },
-                                        }
-                                    }}
-                                >
-                                    <ListItemText primary={item.name} />
-                                    {/* ใส่ไอคอนเฉพาะกับ "พิพากษา" */}
-                                    {item.name === 'พิพากษา' && <ArrowDropDownIcon />}
-                                </ListItemButton>
-                            </ListItem>
-                        ))}
-                    </List>
-                </Collapse>
-
-                <Collapse in={openSee} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                        {[
-                            { name: 'ชั้นต้น', link: '/page/ResultsFirst' },
-                            { name: 'ชั้นอุทธรณ์', link: '/page/Appeal' },
-                            { name: 'ชั้นฎีกา', link: '/page/SupremeLaw' },
-                        ].map((item) => (
-                            <ListItem key={item.name} disablePadding>
-                                <ListItemButton
-                                    component={Link}
-                                    to={item.link}
-                                    onClick={() => setSelectedMenu(item.name)} // ตั้งค่าเมนูย่อยที่ถูกเลือก
-                                    sx={{
-                                        pl: 4,
-                                        bgcolor: location.pathname === item.link ? '#1530A8' : 'transparent', // ✅ เปลี่ยนพื้นหลังถ้า path ตรงกัน
-                                        color: location.pathname === item.link ? 'white' : 'inherit',
-                                        '&:hover': {
-                                            bgcolor: '#1530A8',
-                                            color: 'white',
-                                            '& .MuiListItemText-root': {
-                                                color: 'white',
-                                            },
-                                        },
-                                    }}
-                                >
-                                    <ListItemText primary={item.name} />
-                                </ListItemButton>
-                            </ListItem>
-                        ))}
-                    </List>
-                </Collapse>
 
                 <List>
                     {['งานบังคับคดี'].map((text) => (

@@ -28,7 +28,7 @@ export default function OfficeInfoSection() {
                                     </Grid>
 
                                     <Grid item xs={12} sm={6} md={4}>
-                                        <Typography>ชื่อ *</Typography>
+                                        <Typography>ชื่อ <span style={{color: 'red'}}>*</span></Typography>
                                         <TextField fullWidth size="small" variant="outlined" />
                                     </Grid>
 
