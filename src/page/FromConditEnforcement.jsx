@@ -21,15 +21,15 @@ const FromConditEnforcement = () => {
     const [toprosecution, setToprosecution] = useState('');
     const [yearcourt1, setYearcourt1] = useState('');
     const [tocourt1, setTocourt1] = useState('');
-
+    const [date, setDate] = useState('');
     const [day, setDay] = useState('');
     // const DropChange = (event) => {
     //     setValue(event.target.value);
     // };
-    const [select1, setSelect1] = useState('');
-    const [select2, setSelect2] = useState('');
+    // const [select1, setSelect1] = useState('');
+    // const [select2, setSelect2] = useState('');
 
-    const [select, setSelect] = useState('');
+    // const [select, setSelect] = useState('');
     const [selectedOptions, setSelectedOptions] = useState([]);
 
     const handleChange = (event) => {
@@ -41,18 +41,18 @@ const FromConditEnforcement = () => {
         );
     };
 
-    const handChange = (event) => {
-        const value = event.target.value;
-        setSelect(value);
-    };
-    const handChange1 = (event) => {
-        const value = event.target.value;
-        setSelect1(value);
-    };
-    const handChange2 = (event) => {
-        const value = event.target.value;
-        setSelect2(value);
-    };
+    // const handChange = (event) => {
+    //     const value = event.target.value;
+    //     setSelect(value);
+    // };
+    // const handChange1 = (event) => {
+    //     const value = event.target.value;
+    //     setSelect1(value);
+    // };
+    // const handChange2 = (event) => {
+    //     const value = event.target.value;
+    //     setSelect2(value);
+    // };
 
     const [deferment, setDefermentt] = useState(false); // ขอผ่อนผัน
     const [nomoney, setNomoney] = useState(false); // ไม่มีรายได้
@@ -95,65 +95,29 @@ const FromConditEnforcement = () => {
         }
     };
 
-    const [suspendDebt, setSuspendDebt] = useState(false); // ขอระงับหนี้
-    const [isDead, setIsDead] = useState(false); // ตาย
-    const [isMissing, setIsMissing] = useState(false); // สาบสูญ
+    // const [suspendDebt, setSuspendDebt] = useState(false); // ขอระงับหนี้
+    // const [isDead, setIsDead] = useState(false); // ตาย
+    // const [isMissing, setIsMissing] = useState(false); // สาบสูญ
 
-    useEffect(() => {
-        if (isDead && isMissing && !suspendDebt) {
-            setSuspendDebt(true);
-        }
-        if ((!isDead || !isMissing) && suspendDebt) {
-            setSuspendDebt(false);
-        }
-    }, [suspendDebt, isDead, isMissing]);
 
-    const handleSuspendDebtChange = (event) => {
-        const checked = event.target.checked;
-        setSuspendDebt(checked);
-        if (checked) {
-            setIsDead(true);
-            setIsMissing(true);
-        } else {
-            setIsDead(false);
-            setIsMissing(false);
-        }
-    };
+    // const [debtpayment, setDebtpayment] = useState(false); // ขอรับชำระหนี้
+    // const [chronic, setChronic] = useState(false); // โรคเรื้อรัง
+    // const [imprisonment, setImprisonment] = useState(false); // จำคุกตลอดชีวิต
+    // const [disability, setDisability] = useState(false); // ทุพพลภาพ
+    // const [bankrupt, setBankrupt] = useState(false); // ล้มละลาย
+    // const [contagious, setContagious] = useState(false); // โรคติดต่อ
 
-    const [debtpayment, setDebtpayment] = useState(false); // ขอรับชำระหนี้
-    const [chronic, setChronic] = useState(false); // โรคเรื้อรัง
-    const [imprisonment, setImprisonment] = useState(false); // จำคุกตลอดชีวิต
-    const [disability, setDisability] = useState(false); // ทุพพลภาพ
-    const [bankrupt, setBankrupt] = useState(false); // ล้มละลาย
-    const [contagious, setContagious] = useState(false); // โรคติดต่อ
+    // useEffect(() => {
+    //     const allChecked = chronic && imprisonment && disability && bankrupt && contagious;
+    //     if (allChecked && !debtpayment) {
+    //         setDebtpayment(true);
+    //     }
+    //     if (!allChecked && debtpayment) {
+    //         setDebtpayment(false);
+    //     }
+    // }, [chronic, imprisonment, disability, bankrupt, contagious, debtpayment]);
 
-    useEffect(() => {
-        const allChecked = chronic && imprisonment && disability && bankrupt && contagious;
-        if (allChecked && !debtpayment) {
-            setDebtpayment(true);
-        }
-        if (!allChecked && debtpayment) {
-            setDebtpayment(false);
-        }
-    }, [chronic, imprisonment, disability, bankrupt, contagious, debtpayment]);
-
-    const Change = (event) => {
-        const checked = event.target.checked;
-        setDebtpayment(checked);
-        if (checked) {
-            setChronic(true);
-            setContagious(true);
-            setBankrupt(true);
-            setDisability(true);
-            setImprisonment(true);
-        } else {
-            setChronic(false);
-            setContagious(false);
-            setBankrupt(false);
-            setDisability(false);
-            setImprisonment(false);
-        }
-    };
+    
 
     const [conditions, setConditions] = useState([{ id: 1 }]); // เริ่มด้วย 1 เงื่อนไข
 
@@ -168,7 +132,7 @@ const FromConditEnforcement = () => {
 
     return (
         <>
-            <Box sx={{ backgroundColor: '#efefef', height: '100vh' }}>
+            <Box sx={{ backgroundColor: '#efefef', height: 'auto' }}>
                 <Back BackConditEnforcement="กลับ" />
                 <Grid container spacing={1} sx={{ padding: '20px', }}>
                     <Grid item xs={12} sm={12} md={12}
@@ -338,8 +302,8 @@ const FromConditEnforcement = () => {
                                 <Typography>ทุกวันที่ <span style={{ color: 'red' }}>*</span> </Typography>
                                 <FormControl variant="outlined" fullWidth>
                                     <Select
-                                        value={day} // ค่า value ที่เลือกจาก dropdown
-                                        onChange={(e) => setDay(e.target.value)} displayEmpty
+                                        value={date} // ค่า value ที่เลือกจาก dropdown
+                                        onChange={(e) => setDate(e.target.value)} displayEmpty
                                         inputProps={{
                                             'aria-label': 'ศาล',
                                         }}
@@ -558,8 +522,9 @@ const FromConditEnforcement = () => {
                                         </Grid>
                                     </Grid>
 
-                                    <Divider sx={{ BorderWidth: 1, borderColor: '#1530A8' }} />
-                                    <Grid container spacing={1} sx={{ padding: '0 20px' }}>
+                                    <Divider sx={{ borderWidth: 1, borderColor: '#1530A8', borderStyle: 'solid' }} />
+
+                                    <Grid container spacing={1} sx={{ padding: '0 20px', }}>
                                         <Grid item xs={12} sm={12} md={12} >
                                             <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
                                                 <FormControlLabel sx={{ marginLeft: '5px' }}
@@ -630,7 +595,7 @@ const FromConditEnforcement = () => {
 
                                     <Grid container spacing={1} sx={{ padding: '10px 10px' }}>
                                         <Grid item xs={12} sm={6} md={3.5}>
-                                            <Typography>รุ่นปีที่ดำเนินคดี <span style={{ color: 'red' }}>*</span> </Typography>
+                                            <Typography>รุ่นปีที่ศาลพิพากษา <span style={{ color: 'red' }}>*</span> </Typography>
                                             <FormControl variant="outlined" fullWidth>
                                                 <Select
                                                     value={yearcourt1} // ค่า value ที่เลือกจาก dropdown
@@ -682,151 +647,57 @@ const FromConditEnforcement = () => {
                                         </Grid>
                                     </Grid>
                                 </Grid>
+                                <Divider sx={{ BorderWidth: 1, borderColor: '#1530A8' }} />
+                                <Grid container spacing={2} sx={{ padding: '5px 20px' }}>
+                                    <Grid item xs={12} sm={6} md={3.5}>
+                                        <Typography>ยอดหนี้คงเหลือมากกว่า (บาท) <span style={{ color: 'red' }}>*</span> </Typography>
+                                        <TextField
+                                            fullWidth
+                                            variant="outlined"
+                                            sx={{
+                                                '& .MuiInputBase-input': {
+                                                    height: '11px',  // กำหนดความสูงให้เหมาะสม
+                                                },
+                                            }} InputProps={{
+                                                endAdornment: <InputAdornment position="end"
+                                                >ปี</InputAdornment>,
+                                            }} />
+                                    </Grid>
+                                    <Grid item xs={12} sm={6} md={4} sx={{ marginTop: '30px' }}>
+                                        <Typography><span style={{ color: 'red' }}>* กรณีดึงข้อมูลเพื่อวิเคราะห์ไม่จำเป็นต้องระบุยอดหนี้คงเหลือ</span> </Typography>
+                                    </Grid>
+                                </Grid>
 
                                 <Grid container spacing={2} sx={{ padding: '5px 20px' }}>
-                                    <Grid item xs={12} sm={12} md={12} sx={{ marginTop: '30px' }}>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
-                                            <Typography>เงื่อนไขที่ยกเว้นไม่ดึงข้อมูล</Typography>
-                                        </Box>
-                                    </Grid>
                                     <Grid item xs={12} sm={4} md={4}>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
-                                            <FormGroup sx={{ marginLeft: '10px' }}>
-                                                <FormControlLabel control={
-                                                    <Checkbox checked={deferment} onChange={Onchange} />}
-                                                    label="ขอผ่อนชำระ"
-                                                />
-                                                <FormControlLabel control={
-                                                    <Checkbox checked={nomoney} onChange={(e) => setNomoney(e.target.checked)} />}
-                                                    label="ไม่มีรายได้"
-                                                />
-                                                <FormControlLabel control={
-                                                    <Checkbox checked={money} onChange={(e) => setMoney(e.target.checked)} />}
-                                                    label="รายได้ไม่เกิน 8,008 บาทต่อเดือน"
-                                                />
-                                                <FormControlLabel control={
-                                                    <Checkbox checked={lowmoney} onChange={(e) => setLowMomey(e.target.checked)} />}
-                                                    label="รายได้ถดถอย"
-                                                />
-                                                <FormControlLabel control={
-                                                    <Checkbox checked={suffer} onChange={(e) => setSuffer(e.target.checked)} />}
-                                                    label="ประสบภัย"
-                                                />
-                                                <FormControlLabel control={
-                                                    <Checkbox checked={family} onChange={(e) => setFamily(e.target.checked)} />}
-                                                    label="ดูแลบุคคลในครอบครัว"
-                                                />
-                                                <FormControlLabel control={
-                                                    <Checkbox checked={restructuring} onChange={(e) => setRestructuring(e.target.checked)} />}
-                                                    label="ปรังปรุงโครงสร้างหนี้"
-                                                />
-                                                <FormControlLabel control={
-                                                    <Checkbox checked={paybreak} onChange={(e) => setPaybreak(e.target.checked)} />}
-                                                    label="พักชำระหนี้บัตรสวัสดิการแห่งรัฐ"
-                                                />
-                                            </FormGroup>
-                                        </Box>
-                                    </Grid>
-                                    <Grid item xs={12} sm={4} md={4}>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
-                                            <FormGroup sx={{ marginLeft: '10px' }}>
-                                                <FormControlLabel control={
-                                                    <Checkbox checked={debtpayment} onChange={Change} />}
-                                                    label="ขอระงับการเรียกให้ชำระหนี้"
-                                                />
-                                                <FormControlLabel control={
-                                                    <Checkbox checked={chronic} onChange={(e) => setChronic(e.target.checked)} />}
-                                                    label="โรคเรื้อรัง"
-                                                />
-                                                <FormControlLabel control={
-                                                    <Checkbox checked={imprisonment} onChange={(e) => setImprisonment(e.target.checked)} />}
-                                                    label="จำคุกตลอดชีวิต"
-                                                />
-                                                <FormControlLabel control={
-                                                    <Checkbox checked={bankrupt} onChange={(e) => setBankrupt(e.target.checked)} />}
-                                                    label="ล้มละลาย"
-                                                />
-                                                <FormControlLabel control={
-                                                    <Checkbox checked={contagious} onChange={(e) => setContagious(e.target.checked)} />}
-                                                    label="โรคติดต่อร้ายแรง"
-                                                />
-                                                <FormControlLabel control={
-                                                    <Checkbox checked={disability} onChange={(e) => setDisability(e.target.checked)} />}
-                                                    label="ทุพพลภาพ"
-                                                />
 
-                                            </FormGroup>
-                                        </Box>
-                                    </Grid>
-                                    <Grid item xs={12} sm={4} md={4}>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
-                                            <FormGroup sx={{ marginLeft: '10px' }}>
-                                                <FormControlLabel control={
-                                                    <Checkbox checked={suspendDebt} onChange={handleSuspendDebtChange} />}
-                                                    label="ขอระงับหนี้"
-                                                />
-                                                <FormControlLabel control={
-                                                    <Checkbox checked={isDead} onChange={(e) => setIsDead(e.target.checked)} />}
-                                                    label="ตาย"
-                                                />
-                                                <FormControlLabel control={
-                                                    <Checkbox checked={isMissing} onChange={(e) => setIsMissing(e.target.checked)} />}
-                                                    label="สาบสูญ"
-                                                />
-                                            </FormGroup>
-                                        </Box>
-                                    </Grid>
-                                </Grid>
-                                <Grid container spacing={2} sx={{ padding: '0 20px' }}>
-                                    <Grid item xs={12} sm={12} md={12} sx={{ marginTop: '30px' }}>
-                                        <FormGroup>
-                                            <FormControlLabel control={<Checkbox defaultChecked />} label="สถานะบัญชี (ปิดบัญชีสาเหตุต่างๆ)" />
+                                        <Typography>สถานะบุคคลที่ยกเว้น</Typography>
+                                        <FormGroup sx={{ marginLeft: '10px' }}>
+                                            <FormControlLabel control={
+                                                <Checkbox checked={deferment} onChange={Onchange} />}
+                                                label="เสียชีวิต"
+                                            />
+                                            <FormControlLabel control={
+                                                <Checkbox checked={nomoney} onChange={(e) => setNomoney(e.target.checked)} />}
+                                                label="สาบสูญ"
+                                            />
+                                            <FormControlLabel control={
+                                                <Checkbox checked={money} onChange={(e) => setMoney(e.target.checked)} />}
+                                                label="พิการหรือทุพพลภาพ"
+                                            />
+                                            <FormControlLabel control={
+                                                <Checkbox checked={lowmoney} onChange={(e) => setLowMomey(e.target.checked)} />}
+                                                label="เป็นโรคติดต่อร้ายแรง"
+                                            />
+                                            <Typography sx={{ marginLeft: '-10px' }} >สถานะบุคคลล้มละลาย</Typography>
+                                            <FormControlLabel control={
+                                                <Checkbox checked={suffer} onChange={(e) => setSuffer(e.target.checked)} />}
+                                                label="ต้องคดีล้มละลาย"
+                                            />
                                         </FormGroup>
                                     </Grid>
-                                    <Grid item xs={12} sm={12} md={12}>
-                                        <FormGroup>
-                                            <FormControlLabel control={<Checkbox defaultChecked />} label="หักเงินเดือนพรบ.กองทุนฯ (องค์กรนายจ้าง)" />
-                                        </FormGroup>
-                                    </Grid>
-
-                                    <Grid item xs={12} sm={12} md={12}>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
-                                            <FormGroup>
-                                                <FormControlLabel control={<Checkbox defaultChecked />} label="ลูกหนี้ที่มีการชำระหนี้มากว่า" />
-                                            </FormGroup>
-                                            <Grid item xs={5} sm={3} md={2} >
-                                                <TextField
-                                                    fullWidth
-                                                    variant="outlined"
-                                                    sx={{
-                                                        '& .MuiInputBase-input': {
-                                                            height: '11px',  // กำหนดความสูงให้เหมาะสม
-                                                        },
-                                                    }} InputProps={{
-                                                        endAdornment: <InputAdornment position="end"
-                                                        >%</InputAdornment>,
-                                                    }}
-                                                />
-                                            </Grid>
-                                            <Typography sx={{ marginLeft: 2 }}>  ดูการชำระหนี้ย้อนหลังไม่เกิน </Typography>
-                                            <Grid item xs={5} sm={3} md={2} >
-                                                <TextField
-                                                    fullWidth
-                                                    variant="outlined"
-                                                    sx={{
-                                                        marginLeft: '15px',
-                                                        '& .MuiInputBase-input': {
-                                                            height: '11px',  // กำหนดความสูงให้เหมาะสม
-                                                        },
-                                                    }} InputProps={{
-                                                        endAdornment: <InputAdornment position="end"
-                                                        >ปี</InputAdornment>,
-                                                    }}
-                                                />
-                                            </Grid>
-                                        </Box>
-                                    </Grid>
                                 </Grid>
+                              
                             </Grid>
                         ))}
                         <Grid item xs={12} sm={12} md={12} sx={{ marginTop: '15px' }}>

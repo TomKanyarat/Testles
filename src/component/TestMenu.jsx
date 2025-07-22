@@ -14,10 +14,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import MailIcon from '@mui/icons-material/Mail';
-import HomeIcon from '@mui/icons-material/Home';
+import { House } from 'lucide-react';
 import DSL from '../Image/DSL.png';
-
+import { BookText } from 'lucide-react';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -90,7 +89,7 @@ export default function TemporaryDrawer() {
 
 
     const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(true);
     const [openSendEmail, setOpenSendEmail] = React.useState(false);
     const [openSee, setOpenSee] = React.useState(false);
     const [openList, setOpenList] = React.useState(false);
@@ -114,30 +113,37 @@ export default function TemporaryDrawer() {
         }
     };
     const toggleSendEmailMenu = () => {
-        setOpenSendEmail(!openSendEmail);
+        setSelectedMenu('งานดำเนินคดี'); // 👈 สำคัญ
+        setOpenSendEmail(prev => !prev);
         setOpenList(false);  // ปิดเมนูย่อยของ "งานบังคับคดี"
         setOpenSee(false);  // ปิดเมนูย่อยของ "พิพากษา"
         setOpenSystem(false);  // ปิดเมนูย่อยของ "งานระบบ"
     };
 
     const toggleSeeMenu = () => {
-        setOpenSee(!openSee);
+        setOpenSee(prev => !prev);
+        setOpenSystem(false);
+        setOpenSendEmail(false);
+        setOpenList(false);
     };
 
     const toggleList = () => {
-        setOpenList(!openList);
-        setOpenSendEmail(false);  // ปิดเมนูย่อยของ "งานดำเนินคดี"
-        setOpenSystem(false);  // ปิดเมนูย่อยของ "งานดำเนินคดี"
-
+        setSelectedMenu('งานบังคับคดี'); // 👈 สำคัญ
+        setOpenList(prev => !prev);
+        setOpenSystem(false);
+        setOpenSendEmail(false);
+        setOpenSee(false);
     };
+
 
     const toggleSystem = () => {
-        setOpenSystem(!openSystem);
-        setOpenSendEmail(false);  // ปิดเมนูย่อยของ "งานดำเนินคดี"
-        setOpenList(false);  // ปิดเมนูย่อยของ "งานบังคับคดี"
+        setSelectedMenu('งานระบบ'); // 
+        setOpenSystem(prev => !prev);
+        setOpenSendEmail(false);        // ปิดเมนูอื่น
+        setOpenList(false);
+        setOpenSee(false);
 
     };
-    
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -158,7 +164,7 @@ export default function TemporaryDrawer() {
                     <Typography variant="h6" noWrap component="div">
                         <img src={DSL} alt="DSL Logo" style={{ width: '50px', height: 'auto', marginTop: '5px' }} />
                     </Typography>
-                <Typography></Typography>
+                    <Typography></Typography>
                 </Toolbar>
             </AppBar>
 
@@ -180,7 +186,6 @@ export default function TemporaryDrawer() {
                                     setSelectedMenu(text);  // ตั้งค่าเมนูที่เลือก
                                 }
                                 }
-                                // disabled={!open}
                                 component={Link}
                                 to="/"
                                 sx={{
@@ -198,13 +203,84 @@ export default function TemporaryDrawer() {
                                     justifyContent: open ? 'initial' : 'center',
                                     color: selectedMenu === text && selectedMenu !== '' ? 'white' : 'inherit',
                                 }}>
-                                    <HomeIcon />
+                                    <House />
                                 </ListItemIcon>
                                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
                             </ListItemButton>
                         </ListItem>
                     ))}
                 </List>
+
+
+                <List>
+                    {['งานระบบ'].map((text) => (
+                        <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+                            <ListItemButton
+                                disabled={!open} // ปิดการคลิกเมนูเมื่อ drawer ปิด
+                                onClick={toggleSystem}
+                                sx={{
+                                    justifyContent: open ? 'initial' : 'center',
+                                    bgcolor: selectedMenu === text ? '#1530A8' : 'transparent',  // เปลี่ยนพื้นหลังเมนูที่เลือก
+                                    color: selectedMenu === text ? 'white' : 'inherit',  // เปลี่ยนสีข้อความเมนูที่เลือก
+                                    '&:hover': {
+                                        bgcolor: '#1530A8',
+                                        color: 'white',
+                                    },
+                                }}
+                            >
+                                <ListItemIcon sx={{
+                                    minWidth: 0,
+                                    mr: open ? 3 : 'auto',
+                                    justifyContent: open ? 'initial' : 'center',
+                                    color: selectedMenu === text ? 'white' : 'inherit', // เปลี่ยนสีไอคอนเมื่อเลือก
+                                }}>
+                                    {text === 'หน้าแรก' ? <House /> : <BookText />}
+                                </ListItemIcon>
+                                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                                {open && <ArrowDropDownIcon />} {/* แสดง ArrowDropDownIcon เฉพาะเมื่อ Drawer เปิด */}
+                            </ListItemButton>
+                        </ListItem>
+                    ))}
+                </List>
+
+                <Collapse in={openSystem} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                        {[
+                            { name: 'เงื่อนไขเพื่อคัดลูกหนี้เพื่อการบอกเลิกสัญญาและดำเนินคดี', link: '/page/SystemWork' },
+                            { name: 'เงื่อนไขสัญญาประนีประนอมยอมความ', link: '/page/ForcedWarrant' },
+                            { name: 'เงื่อนไขลูกหนี้ที่เข้าข่ายบังคับคดี', link: '/page/ConditEnforcement' },
+                            // { name: 'สืบทรัพย์', link: '/page/ResultsInvestigation' },
+                            // { name: 'ยึดทรัพย์', link: '/page/SeizePPT' },
+                            // { name: 'ขายทอดตลาด', link: '/page/Auction' },
+                            // { name: 'ยื่นคำร้องของเฉลี่ยทรัพย์', link: '/page/PetitionProperty' },
+                            // { name: 'ยื่นขอรับชำระหนี้คดีล้มละลาย', link: '/page/FileBankruptcy' },
+
+
+                        ].map((item) => (
+                            <ListItem key={item.name} disablePadding>
+                                <ListItemButton component={Link} to={item.link} sx={{
+                                    pl: 4,
+                                    bgcolor: location.pathname === item.link ? '#1530A8' : 'transparent', // ✅ เปลี่ยนพื้นหลังถ้า path ตรงกัน
+                                    color: location.pathname === item.link ? 'white' : 'inherit',
+                                    '&:hover': {
+                                        bgcolor: '#1530A8',
+                                        color: 'white',
+                                        '& .MuiListItemText-root': {
+                                            color: 'white',
+                                        },
+                                    }
+                                }}>
+                                    <ListItemText
+                                        sx={{
+                                            whiteSpace: 'normal',
+                                            wordBreak: 'break-word',
+                                        }} primary={item.name} />
+                                </ListItemButton>
+                            </ListItem>
+                        ))}
+                    </List>
+                </Collapse>
+
 
                 <List>
                     {['งานดำเนินคดี'].map((text) => (
@@ -227,7 +303,7 @@ export default function TemporaryDrawer() {
                                     justifyContent: open ? 'initial' : 'center',
                                     color: selectedMenu === text ? 'white' : 'inherit', // เปลี่ยนสีไอคอนเมื่อเลือก
                                 }}>
-                                    <MailIcon />
+                                    <BookText />
                                 </ListItemIcon>
                                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
                                 {open && <ArrowDropDownIcon />} {/* แสดง ArrowDropDownIcon เฉพาะเมื่อ Drawer เปิด */}
@@ -335,7 +411,7 @@ export default function TemporaryDrawer() {
                                     justifyContent: open ? 'initial' : 'center',
                                     color: selectedMenu === text ? 'white' : 'inherit', // เปลี่ยนสีไอคอนเมื่อเลือก
                                 }}>
-                                    {text === 'หน้าแรก' ? <HomeIcon /> : <MailIcon />}
+                                    {text === 'หน้าแรก' ? <House /> : <BookText />}
                                 </ListItemIcon>
                                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
                                 {open && <ArrowDropDownIcon />} {/* แสดง ArrowDropDownIcon เฉพาะเมื่อ Drawer เปิด */}
@@ -372,75 +448,6 @@ export default function TemporaryDrawer() {
                                     }
                                 }}>
                                     <ListItemText primary={item.name} />
-                                </ListItemButton>
-                            </ListItem>
-                        ))}
-                    </List>
-                </Collapse>
-
-                <List>
-                    {['งานระบบ'].map((text) => (
-                        <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-                            <ListItemButton
-                                disabled={!open} // ปิดการคลิกเมนูเมื่อ drawer ปิด
-                                onClick={toggleSystem}
-                                sx={{
-                                    justifyContent: open ? 'initial' : 'center',
-                                    bgcolor: selectedMenu === text ? '#1530A8' : 'transparent',  // เปลี่ยนพื้นหลังเมนูที่เลือก
-                                    color: selectedMenu === text ? 'white' : 'inherit',  // เปลี่ยนสีข้อความเมนูที่เลือก
-                                    '&:hover': {
-                                        bgcolor: '#1530A8',
-                                        color: 'white',
-                                    },
-                                }}
-                            >
-                                <ListItemIcon sx={{
-                                    minWidth: 0,
-                                    mr: open ? 3 : 'auto',
-                                    justifyContent: open ? 'initial' : 'center',
-                                    color: selectedMenu === text ? 'white' : 'inherit', // เปลี่ยนสีไอคอนเมื่อเลือก
-                                }}>
-                                    {text === 'หน้าแรก' ? <HomeIcon /> : <MailIcon />}
-                                </ListItemIcon>
-                                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                                {open && <ArrowDropDownIcon />} {/* แสดง ArrowDropDownIcon เฉพาะเมื่อ Drawer เปิด */}
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-                </List>
-
-                <Collapse in={openSystem} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                        {[
-                            { name: 'เงื่อนไขเพื่อคัดลูกหนี้เพื่อการบอกเลิกสัญญาและดำเนินคดี', link: '/page/SystemWork' },
-                            { name: 'เงื่อนไขสัญญาประนีประนอมยอมความ', link: '/page/ForcedWarrant' },
-                            { name: 'เงื่อนไขลูกหนี้ที่เข้าข่ายบังคับคดี', link: '/page/ConditEnforcement' },
-                            { name: 'สืบทรัพย์', link: '/page/ResultsInvestigation' },
-                            { name: 'ยึดทรัพย์', link: '/page/SeizePPT' },
-                            { name: 'ขายทอดตลาด', link: '/page/Auction' },
-                            { name: 'ยื่นคำร้องของเฉลี่ยทรัพย์', link: '/page/PetitionProperty' },
-                            { name: 'ยื่นขอรับชำระหนี้คดีล้มละลาย', link: '/page/FileBankruptcy' },
-
-
-                        ].map((item) => (
-                            <ListItem key={item.name} disablePadding>
-                                <ListItemButton component={Link} to={item.link} sx={{
-                                    pl: 4,
-                                    bgcolor: location.pathname === item.link ? '#1530A8' : 'transparent', // ✅ เปลี่ยนพื้นหลังถ้า path ตรงกัน
-                                    color: location.pathname === item.link ? 'white' : 'inherit',
-                                    '&:hover': {
-                                        bgcolor: '#1530A8',
-                                        color: 'white',
-                                        '& .MuiListItemText-root': {
-                                            color: 'white',
-                                        },
-                                    }
-                                }}>
-                                    <ListItemText
-                                        sx={{
-                                            whiteSpace: 'normal',
-                                            wordBreak: 'break-word',
-                                        }} primary={item.name} />
                                 </ListItemButton>
                             </ListItem>
                         ))}
