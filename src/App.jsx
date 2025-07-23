@@ -64,6 +64,9 @@ import ConditEnforcement from "./page/ConditEnforcement";
 import FromConditEnforcement from "./page/FromConditEnforcement";
 import LawFirm from "./page/LawFirm";
 import FromLawFirm from "./page/FromLawFirm";
+import FirstDegreeCase from './page/FirstDegreeCase';
+import DetailFirstDegreeCase from './page/DetailFirstDegreeCase';
+import FromFirstDegreeeCase from './page/FromFirstDegreeeCase';
 
 function App() {
   return (
@@ -133,6 +136,9 @@ function App() {
         <Route path="/page/FromConditEnforcement" element={<FromConditEnforcement />} />
         <Route path="/page/LawFirm" element={<LawFirm />} />
         <Route path="/page/FromLawFirm" element={<FromLawFirm />} />
+        <Route path="/page/FirstDegreeCase" element={<FirstDegreeCase />} />
+        <Route path="/page/DetailFirstDegreeCase" element={<DetailFirstDegreeCase />} />
+        <Route path="/page/FromFirstDegreeeCase" element={<FromFirstDegreeeCase />} />
       </Routes>
     </BrowserRouter>
   );

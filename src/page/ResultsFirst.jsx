@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import SubHeader from '../component/SubHeader'
-import { Grid, Typography, Divider, TextField, Box, FormControl, Select,MenuItem } from '@mui/material'
+import { Grid, Typography, Divider, TextField, Box, FormControl, Select, MenuItem } from '@mui/material'
 import TestMenu from '../component/TestMenu';
 // import { Link } from 'react-router-dom';
 import TBResultsFirst from '../TB/TBResultFirst';
@@ -13,15 +13,14 @@ const Auction = () => {
     };
     return (
 
-        <div style={{ backgroundColor: '#efefef', height: '100vh'}}>
-            <Box sx={{ display: 'flex'}}>
+        <div style={{ backgroundColor: '#efefef', height: '100vh' }}>
+            <Box sx={{ display: 'flex' }}>
                 <TestMenu />
 
-                <Box component="main" sx={{ overflow: 'auto',width: '100%' }}>
+                <Box component="main" sx={{ overflow: 'auto', width: '100%' }}>
                     <SubHeader />
-                    <SubHeader ResultsFirst="ผลการดำเนินคดีศาลชั้นต้น"
-                        FirstDegreeCase="ออกคำบังคับคดีชั้นต้น"
-                    />
+                    <SubHeader text="หน้าหลัก" />
+
 
                     <Grid container spacing={1} sx={{ padding: '20px 20px', }}>
                         <Grid item xs={12} sm={12} md={12} sx={{
@@ -129,7 +128,7 @@ const Auction = () => {
                             height: 'auto',
                             padding: '15px',
                         }} >
-                            <Typography sx={{ marginLeft: '15px' }}>ชะลอขายทอดตลาด</Typography>
+                            <Typography sx={{ marginLeft: '15px' }}>ผลการดำเนินคดีศาลชั้นต้น</Typography>
                             <Divider sx={{ borderColor: '#1530A8' }} />
 
                             <Grid item xs={12} sm={12} md={12} sx={{ marginTop: '15px' }}>

@@ -18,12 +18,10 @@ const Appeal = () => {
                 <Box sx={{ display: 'flex', flexDirection: { xs: 'row' } }}>
                     <TestMenu />
 
-                    <Box component="main" sx={{ overflow: 'auto' ,width: '100%'}}>
+                    <Box component="main" sx={{ overflow: 'auto', width: '100%' }}>
                         <SubHeader />
-                        <SubHeader Appeal="ยื่นอุทธรณ์/งดอุทธรณ์"
-                            ResultAppeal="ผลพิจารณาอนุมัติยื่นอุทธรณ์/งดอุทธรณ์"
-                            EditAppeal="ยื่น/แก้อุธรณ์" ProsecutionAppeal="ผลการดำเนินคดี"
-                            WarrantApeal="ออกหมายบังคับคดี" />
+                        <SubHeader text="หน้าหลัก" />
+
 
                         <Grid container spacing={1} sx={{ padding: '20px 20px', }}>
                             <Grid item xs={12} sm={12} md={12} sx={{

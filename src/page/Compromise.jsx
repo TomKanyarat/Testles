@@ -28,9 +28,9 @@ const Compromise = () => {
                 <Box sx={{ display: 'flex' }}>
                     <TestMenu />
 
-                    <Box component="main" sx={{overflow: 'auto' }}>
+                    <Box component="main" sx={{ overflow: 'auto' }}>
                         <SubHeader />
-                        <SubHeader textheader="สร้างคำฟ้อง" textll="สร้างสัญญาประนีประนอมยอมความ" />
+                        <SubHeader text="หน้าหลัก" />
 
                         <Grid container spacing={1} sx={{ padding: '20px', }}>
                             <Grid item xs={12} sm={12} md={12}
@@ -47,7 +47,7 @@ const Compromise = () => {
                                 </Typography>
                                 <Divider sx={{ BorderWidth: 1, borderColor: '#1530A8' }} />
 
-                                <Grid container spacing={2} sx={{padding: '5px'}}>
+                                <Grid container spacing={2} sx={{ padding: '5px' }}>
                                     <Grid item xs={12} sm={6} md={3} >
                                         <Typography>เลขที่กฎหมาย</Typography>
                                         <TextField

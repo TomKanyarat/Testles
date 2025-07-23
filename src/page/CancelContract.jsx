@@ -18,14 +18,14 @@ const Cancel_contract = () => {
     setValue(event.target.value);
   };
   return (
-    <div style={{ backgroundColor: '#efefef',height: 'auto' }}>
+    <div style={{ backgroundColor: '#efefef', height: 'auto' }}>
       <Box sx={{ display: 'flex' }}>
         <TestMenu />
         <Box component="main" sx={{
           overflowX: 'auto',
         }}>
           <SubHeader />
-          <SubHeader CancelContract="รายการลูกหนี้ที่รอบอกเลิกสัญญา" RecordCancelContract="บันทึกผลการจัดส่งข้อมูลหนังสือบอกเลิกสัญญา" />
+          <SubHeader text="หน้าหลัก" />
           <Grid container spacing={1} sx={{ padding: '20px 20px', }}>
             <Grid item xs={12} sm={12} md={12} sx={{
               borderRadius: '5px',

@@ -45,7 +45,13 @@ export default function TabelCancelContract() {
 
         <Paper sx={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
 
-            <Button sx={{ color: 'white', background: 'linear-gradient(45deg, #108F0D, #196618)', marginTop: '10px', }}
+            <Button sx={{
+                marginBottom: '10px',
+                color: 'white', background: 'linear-gradient(45deg, #108F0D, #196618)', marginTop: '10px', '&:disabled': {
+                    background: '#ccc',
+                    color: '#666',
+                },
+            }}
                 disabled={!hasSelectedRows}
                 onClick={() => {
                     if (hasSelectedRows) {

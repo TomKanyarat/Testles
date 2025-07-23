@@ -96,6 +96,7 @@ export default function TemporaryDrawer() {
 
     const handleDrawerOpen = () => {
         setOpen(true);
+        openMenusFromPath(location.pathname); // แสดงเมนูที่ตรงกับ path ปัจจุบัน
     };
 
     const handleDrawerClose = () => {
@@ -113,54 +114,70 @@ export default function TemporaryDrawer() {
         setOpenList(!openList);
     };
 
-    // const toggleSystem = () => {
-    //     setOpenSystem(!openSystem);
-    // };
-
+    const [openSubFirstLevel, setOpenSubFirstLevel] = React.useState(false);
+    // const [openSubApeal, setOpenSubApeal] = React.useState(false);
     // State
     const [openCancelMenu, setOpenCancelMenu] = React.useState(false);
     const [openSueMenu, setOpenSueMenu] = React.useState(false);
     const [openSee, setOpenSee] = React.useState(false);
+    const [openSeeApeal, setOpenSeeApeal] = React.useState(false);
+    const [openSupreme, setOpenSupreme] = React.useState(false);
+    // const [openEditAppeal, setOpenEditAppeal] = React.useState(false);
+
     // Toggle
     const toggleCancelMenu = () => setOpenCancelMenu(!openCancelMenu);
     const toggleSueMenu = () => setOpenSueMenu(!openSueMenu);
     const toggleSeeMenu = () => setOpenSee(!openSee);
 
-  React.useEffect(() => {
-    if (
-        ['/page/CancelContract', '/page/RecordCancelContract'].includes(location.pathname)
-    ) {
-        setOpenSendEmail(true);
-        setOpenCancelMenu(true);
-    }
+    const openMenusFromPath = (path) => {
+        // เคลียร์เมนูทั้งหมดก่อน
+        setOpenSendEmail(false);
+        setOpenCancelMenu(false);
+        setOpenSueMenu(false);
+        setOpenSee(false);
+        setOpenSeeApeal(false);
+        setOpenList(false);
+        setOpenSubFirstLevel(false);
+        setOpenSupreme(false);
 
-    if (
-        ['/page/Sue', '/page/Compromise'].includes(location.pathname)
-    ) {
-        setOpenSendEmail(true);
-        setOpenSueMenu(true);
-    }
+        // ตรวจสอบ path แล้วเปิดเฉพาะเมนูย่อยที่เกี่ยวข้อง
+        if (['/page/CancelContract', '/page/RecordCancelContract'].includes(path)) {
+            setOpenSendEmail(true);
+            setOpenCancelMenu(true);
+        } else if (['/page/Sue', '/page/Compromise'].includes(path)) {
+            setOpenSendEmail(true);
+            setOpenSueMenu(true);
+        } else if (['/page/ResultsFirst', '/page/FirstDegreeCase'].includes(path)) {
+            setOpenSendEmail(true);
+            setOpenSee(true);
+            setOpenSubFirstLevel(true);
+        } else if (['/page/Appeal', '/page/ResultAppeal', '/page/EditAppeal', '/page/ProsecutionAppeal', '/page/WarrantApeal'].includes(path)) {
+            setOpenSendEmail(true);
+            setOpenSee(true);
+            setOpenSeeApeal(true);
+        } else if (['/page/SupremeLaw', '/page/ResultSupremeLaw', '/page/EditSupremeLaw', '/page/ProsecuSupremeLaw'].includes(path)) {
+            setOpenSendEmail(true);
+            setOpenSee(true);
+            setOpenSupreme(true);
+        } else if ([
+            '/page/WearRights',
+            '/page/ForcedWarrant',
+            '/page/Mediation',
+            '/page/ResultsInvestigation',
+            '/page/SeizePPT',
+            '/page/Auction',
+            '/page/PetitionProperty',
+            '/page/FileBankruptcy',
+        ].includes(path)) {
+            setOpenList(true);
+        }
+    };
 
-    if (
-        ['/page/ResultsFirst', '/page/Appeal', '/page/SupremeLaw'].includes(location.pathname)
-    ) {
-        setOpenSendEmail(true);
-        setOpenSee(true);
-    }
-
-    if (!openList && [
-        '/page/WearRights',
-        '/page/ForcedWarrant',
-        '/page/Mediation',
-        '/page/ResultsInvestigation',
-        '/page/SeizePPT',
-        '/page/Auction',
-        '/page/PetitionProperty',
-        '/page/FileBankruptcy',
-    ].includes(location.pathname)) {
-        setOpenList(true);
-    }
-}, [location.pathname]); // ✅ เพิ่ม dependency เพื่อรีแอคตอน path เปลี่ยน
+    React.useEffect(() => {
+        if (open) {
+            openMenusFromPath(location.pathname);
+        }
+    }, [location.pathname, open]);
 
 
     return (
@@ -227,9 +244,9 @@ export default function TemporaryDrawer() {
                             </ListItemButton>
                         </ListItem>
                     ))}
-                </List> */}
+                </List>  */}
 
-                {/*  <List>
+                {/* <List>
                     {['งานระบบ'].map((text) => (
                         <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                             <ListItemButton
@@ -258,9 +275,9 @@ export default function TemporaryDrawer() {
                             </ListItemButton>
                         </ListItem>
                     ))}
-                </List> */}
-                {/* 
-                <Collapse in={openSystem} timeout="auto" unmountOnExit>
+                </List>  */}
+
+                {/* <Collapse in={openSystem} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
                         {[
                             { name: 'เงื่อนไขเพื่อคัดลูกหนี้เพื่อการบอกเลิกสัญญาและดำเนินคดี', link: '/page/SystemWork' },
@@ -296,7 +313,7 @@ export default function TemporaryDrawer() {
                             </ListItem>
                         ))}
                     </List>
-                </Collapse> */}
+                </Collapse>  */}
 
                 <List>
                     {/* หัวข้อหลัก: งานดำเนินคดี */}
@@ -332,7 +349,6 @@ export default function TemporaryDrawer() {
                     {/* เมนูย่อยของงานดำเนินคดี */}
                     <Collapse in={openSendEmail} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
-
                             {/* กลุ่ม: บอกเลิกสัญญา */}
                             <ListItemButton onClick={toggleCancelMenu}
                                 sx={{
@@ -352,7 +368,6 @@ export default function TemporaryDrawer() {
                             </ListItemButton>
 
                             <Collapse in={openCancelMenu} timeout="auto" unmountOnExit>
-
                                 {[{ name: 'รายการลูกหนี้ที่รอบอกเลิกสัญญา', link: '/page/CancelContract' },
                                 { name: 'บันทึกผลการจัดส่งข้อมูลหนังสือบอกเลิกสัญญา', link: '/page/RecordCancelContract' }].map((item) => (
                                     <ListItem key={item.name} disablePadding>
@@ -411,8 +426,7 @@ export default function TemporaryDrawer() {
                                                     bgcolor: '#1530A8',
                                                     color: 'white',
                                                 },
-                                            }}
-                                        >
+                                            }}>
                                             <ListItemText primary={item.name} />
                                         </ListItemButton>
                                     </ListItem>
@@ -436,29 +450,292 @@ export default function TemporaryDrawer() {
                                 <ListItemText primary="พิพากษา" />
                                 <ArrowDropDownIcon />
                             </ListItemButton>
-                            <Collapse in={openSee} timeout="auto" unmountOnExit>
-                                {[{ name: 'ชั้นต้น', link: '/page/ResultsFirst' }, { name: 'ชั้นอุทธรณ์', link: '/page/Appeal' }, { name: 'ชั้นฎีกา', link: '/page/SupremeLaw' }].map((item) => (
-                                    <ListItem key={item.name} disablePadding>
-                                        <ListItemButton
-                                            component={Link}
-                                            to={item.link}
-                                            onClick={() => setSelectedMenu(item.name)}
-                                            sx={{
-                                                pl: 6,
-                                                bgcolor: location.pathname === item.link ? '#1530A8' : 'transparent',
-                                                color: location.pathname === item.link ? 'white' : 'inherit',
-                                                '&:hover': {
-                                                    bgcolor: '#1530A8',
-                                                    color: 'white',
-                                                },
-                                            }}
-                                        >
-                                            <ListItemText primary={item.name} />
-                                        </ListItemButton>
-                                    </ListItem>
-                                ))}
-                            </Collapse>
 
+                            <Collapse in={openSee} timeout="auto" unmountOnExit>
+                                <List component="div" disablePadding>
+                                    {/* ชั้นต้น */}
+                                    <ListItemButton
+                                        onClick={() => setOpenSubFirstLevel(!openSubFirstLevel)}
+                                        sx={{
+                                            pl: 6,
+                                            bgcolor: 'transparent',
+                                            color: 'inherit',
+                                            '&:hover': {
+                                                bgcolor: '#1530A8',
+                                                color: 'white',
+                                            },
+                                        }}>
+                                        <ListItemText primary="ชั้นต้น" />
+                                        <ArrowDropDownIcon />
+                                    </ListItemButton>
+
+                                    <Collapse in={openSubFirstLevel} timeout="auto" unmountOnExit>
+                                        <List component="div" disablePadding>
+                                            <ListItem disablePadding>
+                                                <ListItemButton
+                                                    component={Link}
+                                                    to="/page/ResultsFirst"
+                                                    onClick={() => setSelectedMenu('ผลการดำเนินคดีศาลชั้นต้น')}
+                                                    sx={{
+                                                        pl: 8,
+                                                        bgcolor: location.pathname === '/page/ResultsFirst' ? '#1530A8' : 'transparent',
+                                                        color: location.pathname === '/page/ResultsFirst' ? 'white' : 'inherit',
+                                                        '&:hover': {
+                                                            bgcolor: '#1530A8',
+                                                            color: 'white',
+                                                        },
+                                                    }}
+                                                >
+                                                    <ListItemText primary="ผลการดำเนินคดีศาลชั้นต้น" />
+                                                </ListItemButton>
+
+                                            </ListItem>
+
+                                            <ListItem disablePadding>
+                                                <ListItemButton
+                                                    component={Link}
+                                                    to="/page/FirstDegreeCase"
+                                                    onClick={() => setSelectedMenu('ออกคำบังคับคดีชั้นต้น')}
+                                                    sx={{
+                                                        pl: 8,
+                                                        bgcolor: location.pathname === '/page/FirstDegreeCase' ? '#1530A8' : 'transparent',
+                                                        color: location.pathname === '/page/FirstDegreeCase' ? 'white' : 'inherit',
+                                                        '&:hover': {
+                                                            bgcolor: '#1530A8',
+                                                            color: 'white',
+                                                        },
+                                                    }}>
+                                                    <ListItemText primary="ออกคำบังคับคดีชั้นต้น" />
+                                                </ListItemButton>
+                                            </ListItem>
+
+                                            <ListItem disablePadding>
+                                                <ListItemButton
+                                                    component={Link}
+                                                    to="/page/FirstDegreeCase"
+                                                    onClick={() => setSelectedMenu('ออกคำบังคับคดีชั้นต้น')}
+                                                    sx={{
+                                                        pl: 8,
+                                                        bgcolor: location.pathname === '/page/FirstDegreeCase' ? '#1530A8' : 'transparent',
+                                                        color: location.pathname === '/page/FirstDegreeCase' ? 'white' : 'inherit',
+                                                        '&:hover': {
+                                                            bgcolor: '#1530A8',
+                                                            color: 'white',
+                                                        },
+                                                    }} >
+                                                    <ListItemText primary="ออกคำบังคับคดีชั้นต้น" />
+                                                </ListItemButton>
+                                            </ListItem>
+                                        </List>
+                                    </Collapse>
+
+                                    {/* ชั้นอุทธรณ์ */}
+                                    <ListItemButton
+                                        onClick={() => setOpenSeeApeal(!openSeeApeal)}
+                                        sx={{
+                                            pl: 6,
+                                            bgcolor: 'transparent',
+                                            color: 'inherit',
+                                            '&:hover': {
+                                                bgcolor: '#1530A8',
+                                                color: 'white',
+                                            },
+                                        }}>
+                                        <ListItemText primary="ชั้นอุทธรณ์" />
+                                        <ArrowDropDownIcon />
+                                    </ListItemButton>
+
+                                    <Collapse in={openSeeApeal} timeout="auto" unmountOnExit>
+                                        <List component="div" disablePadding>
+                                            <ListItem disablePadding>
+                                                <ListItemButton
+                                                    component={Link}
+                                                    to="/page/Appeal"
+                                                    onClick={() => setSelectedMenu('ยื่นอุทธรณ์/งดอุทธรณ์')}
+                                                    sx={{
+                                                        pl: 8,
+                                                        bgcolor: location.pathname === '/page/Appeal' ? '#1530A8' : 'transparent',
+                                                        color: location.pathname === '/page/Appeal' ? 'white' : 'inherit',
+                                                        '&:hover': {
+                                                            bgcolor: '#1530A8',
+                                                            color: 'white',
+                                                        },
+                                                    }}
+                                                >
+                                                    <ListItemText primary="ยื่นอุทธรณ์/งดอุทธรณ์" />
+                                                </ListItemButton>
+                                            </ListItem>
+
+                                            <ListItem disablePadding>
+                                                <ListItemButton
+                                                    component={Link}
+                                                    to="/page/ResultAppeal"
+                                                    onClick={() => setSelectedMenu('ผลพิจารณอนุมัติยื่นอุทธรณ์/งดอุทธรณ์')}
+                                                    sx={{
+                                                        pl: 8,
+                                                        bgcolor: location.pathname === '/page/ResultAppeal' ? '#1530A8' : 'transparent',
+                                                        color: location.pathname === '/page/ResultAppeal' ? 'white' : 'inherit',
+                                                        '&:hover': {
+                                                            bgcolor: '#1530A8',
+                                                            color: 'white',
+                                                        },
+                                                    }}
+                                                >
+                                                    <ListItemText primary="ผลพิจารณอนุมัติยื่นอุทธรณ์/งดอุทธรณ์" />
+                                                </ListItemButton>
+                                            </ListItem>
+
+                                            <ListItem disablePadding>
+                                                <ListItemButton
+                                                    component={Link}
+                                                    to="/page/EditAppeal"
+                                                    onClick={() => setSelectedMenu('ยื่น/แก้อุทธรณ์')}
+                                                    sx={{
+                                                        pl: 8,
+                                                        bgcolor: location.pathname === '/page/EditAppeal' ? '#1530A8' : 'transparent',
+                                                        color: location.pathname === '/page/EditAppeal' ? 'white' : 'inherit',
+                                                        '&:hover': {
+                                                            bgcolor: '#1530A8',
+                                                            color: 'white',
+                                                        },
+                                                    }}
+                                                >
+                                                    <ListItemText primary="ยื่น/แก้อุทธรณ์" />
+                                                </ListItemButton>
+                                            </ListItem>
+
+                                            <ListItem disablePadding>
+                                                <ListItemButton
+                                                    component={Link}
+                                                    to="/page/ProsecutionAppeal"
+                                                    onClick={() => setSelectedMenu('ผลการดำเนินคดี')}
+                                                    sx={{
+                                                        pl: 8,
+                                                        bgcolor: location.pathname === '/page/ProsecutionAppeal' ? '#1530A8' : 'transparent',
+                                                        color: location.pathname === '/page/ProsecutionAppeal' ? 'white' : 'inherit',
+                                                        '&:hover': {
+                                                            bgcolor: '#1530A8',
+                                                            color: 'white',
+                                                        },
+                                                    }}>
+                                                    <ListItemText primary="ผลการดำเนินคดี" />
+                                                </ListItemButton>
+                                            </ListItem>
+
+                                            <ListItem disablePadding>
+                                                <ListItemButton
+                                                    component={Link}
+                                                    to="/page/WarrantApeal"
+                                                    onClick={() => setSelectedMenu('ออกหมายบังคับคดี')}
+                                                    sx={{
+                                                        pl: 8,
+                                                        bgcolor: location.pathname === '/page/WarrantApeal' ? '#1530A8' : 'transparent',
+                                                        color: location.pathname === '/page/WarrantApeal' ? 'white' : 'inherit',
+                                                        '&:hover': {
+                                                            bgcolor: '#1530A8',
+                                                            color: 'white',
+                                                        },
+                                                    }} >
+                                                    <ListItemText primary="ออกหมายบังคับคดี" />
+                                                </ListItemButton>
+                                            </ListItem>
+                                        </List>
+                                    </Collapse>
+
+                                    {/* ชั้นฎีกา*/}
+                                    <ListItemButton
+                                        onClick={() => setOpenSupreme(!openSupreme)}
+                                        sx={{
+                                            pl: 6,
+                                            bgcolor: 'transparent',
+                                            color: 'inherit',
+                                            '&:hover': {
+                                                bgcolor: '#1530A8',
+                                                color: 'white',
+                                            },
+                                        }}>
+                                        <ListItemText primary="ชั้นฎีกา" />
+                                        <ArrowDropDownIcon />
+                                    </ListItemButton>
+                                    <Collapse in={openSupreme} timeout="auto" unmountOnExit>
+                                        <List component="div" disablePadding>
+                                            <ListItem disablePadding>
+                                                <ListItemButton
+                                                    component={Link}
+                                                    to="/page/SupremeLaw"
+                                                    onClick={() => setSelectedMenu('ยื่นฎีกา')}
+                                                    sx={{
+                                                        pl: 8,
+                                                        bgcolor: location.pathname === '/page/SupremeLaw' ? '#1530A8' : 'transparent',
+                                                        color: location.pathname === '/page/SupremeLaw' ? 'white' : 'inherit',
+                                                        '&:hover': {
+                                                            bgcolor: '#1530A8',
+                                                            color: 'white',
+                                                        },
+                                                    }}>
+                                                    <ListItemText primary="ยื่นฎีกา" />
+                                                </ListItemButton>
+                                            </ListItem>
+
+                                            <ListItem disablePadding>
+                                                <ListItemButton
+                                                    component={Link}
+                                                    to="/page/ResultSupremeLaw"
+                                                    onClick={() => setSelectedMenu('ผลพิจารณาอนุมัติยื่นฎีกา/งดฎีกา')}
+                                                    sx={{
+                                                        pl: 8,
+                                                        bgcolor: location.pathname === '/page/ResultSupremeLaw' ? '#1530A8' : 'transparent',
+                                                        color: location.pathname === '/page/ResultSupremeLaw' ? 'white' : 'inherit',
+                                                        '&:hover': {
+                                                            bgcolor: '#1530A8',
+                                                            color: 'white',
+                                                        },
+                                                    }}>
+                                                    <ListItemText primary="ผลพิจารณาอนุมัติยื่นฎีกา/งดฎีกา" />
+                                                </ListItemButton>
+                                            </ListItem>
+
+                                            <ListItem disablePadding>
+                                                <ListItemButton
+                                                    component={Link}
+                                                    to="/page/EditSupremeLaw"
+                                                    onClick={() => setSelectedMenu('ยื่น/แก้ฎีกา')}
+                                                    sx={{
+                                                        pl: 8,
+                                                        bgcolor: location.pathname === '/page/EditSupremeLaw' ? '#1530A8' : 'transparent',
+                                                        color: location.pathname === '/page/EditSupremeLaw' ? 'white' : 'inherit',
+                                                        '&:hover': {
+                                                            bgcolor: '#1530A8',
+                                                            color: 'white',
+                                                        },
+                                                    }}>
+                                                    <ListItemText primary="ยื่น/แก้ฎีกา" />
+                                                </ListItemButton>
+                                            </ListItem>
+
+
+                                            <ListItem disablePadding>
+                                                <ListItemButton
+                                                    component={Link}
+                                                    to="/page/ProsecuSupremeLaw"
+                                                    onClick={() => setSelectedMenu('ผลการดำเนินคดี')}
+                                                    sx={{
+                                                        pl: 8,
+                                                        bgcolor: location.pathname === '/page/ProsecuSupremeLaw' ? '#1530A8' : 'transparent',
+                                                        color: location.pathname === '/page/ProsecuSupremeLaw' ? 'white' : 'inherit',
+                                                        '&:hover': {
+                                                            bgcolor: '#1530A8',
+                                                            color: 'white',
+                                                        },
+                                                    }}>
+                                                    <ListItemText primary="ผลการดำเนินคดี" />
+                                                </ListItemButton>
+                                            </ListItem>
+                                        </List>
+                                    </Collapse>
+
+                                </List>
+                            </Collapse>
                         </List>
                     </Collapse>
                 </List>
